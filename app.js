@@ -363,3 +363,126 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// --- NUEVAS FUNCIONALIDADES (PMR, Tarjetas, Stats) ---
+document.addEventListener('DOMContentLoaded', () => {
+
+    // 1. Lógica de Sub-Pestañas (Segmented Controls)
+    const segBtns = document.querySelectorAll('.seg-btn');
+    segBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const parentSection = btn.closest('.tab-content');
+            
+            // Quitar activo a los botones hermanos
+            parentSection.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // Ocultar vistas hermanas
+            parentSection.querySelectorAll('.sub-view').forEach(v => v.classList.remove('active'));
+            
+            // Mostrar la vista seleccionada
+            const targetId = btn.getAttribute('data-sub');
+            document.getElementById(targetId).classList.add('active');
+        });
+    });
+
+    // 2. Lógica del Escáner Corporal (PMR)
+    const resetPmrBtn = document.getElementById('reset-pmr');
+    if (resetPmrBtn) {
+        resetPmrBtn.addEventListener('click', () => {
+            document.querySelectorAll('#pmr-list input[type="checkbox"]').forEach(cb => cb.checked = false);
+        });
+    }
+
+    // 3. Lógica de Tarjetas de Afrontamiento
+    const flashcards = [
+        "Esto es muy incómodo, pero no es peligroso. Mi cuerpo está reaccionando a una falsa alarma.",
+        "He sobrevivido al 100% de mis ataques de ansiedad. Este también pasará.",
+        "Mi corazón está latiendo rápido porque está bombeando adrenalina para protegerme. Está sano.",
+        "No intentes detener el pánico. Deja que la ola pase sobre ti, pronto bajará la marea.",
+        "Estás a salvo. El miedo es una emoción, no una premonición.",
+        "Concéntrate en tu respiración. Es el ancla que le dice a tu cerebro que todo está bien."
+    ];
+    let currentCardIndex = 0;
+    const flashcardEl = document.getElementById('flashcard');
+    const flashcardTextEl = flashcardEl ? flashcardEl.querySelector('.flashcard-text') : null;
+    
+    if (flashcardEl && flashcardTextEl) {
+        flashcardEl.addEventListener('click', () => {
+            currentCardIndex = (currentCardIndex + 1) % flashcards.length;
+            
+            // Efecto visual de volteo rápido
+            flashcardEl.style.opacity = 0;
+            flashcardEl.style.transform = "scale(0.95)";
+            
+            setTimeout(() => {
+                flashcardTextEl.textContent = `"${flashcards[currentCardIndex]}"`;
+                flashcardEl.style.opacity = 1;
+                flashcardEl.style.transform = "scale(1)";
+            }, 150);
+        });
+    }
+
+    // 4. Estadísticas y Exportación
+    function updateStats() {
+        const entries = JSON.parse(localStorage.getItem('calm_entries')) || [];
+        const statTotal = document.getElementById('stat-total');
+        if(statTotal) statTotal.textContent = entries.length;
+    }
+    
+    // Sobrescribir (Monkey patch) loadEntries para que actualice las estadísticas cada vez que se cargan
+    const originalLoadEntries = window.loadEntries;
+    window.loadEntries = function() {
+        if(typeof originalLoadEntries === 'function') originalLoadEntries();
+        updateStats();
+    };
+    
+    // Llamar inmediatamente para la carga inicial
+    updateStats();
+
+    const exportBtn = document.getElementById('export-data');
+    if (exportBtn) {
+        exportBtn.addEventListener('click', () => {
+            const entries = localStorage.getItem('calm_entries');
+            if (!entries || entries === '[]') {
+                alert("Tu diario está vacío.");
+                return;
+            }
+            
+            // Crear el archivo
+            const parsedEntries = JSON.parse(entries);
+            let textData = "=== MI DIARIO DE CALMA ===\n\n";
+            parsedEntries.forEach(e => {
+                textData += `Fecha: ${e.date}\n`;
+                if(e.type === 'journal') {
+                    textData += `Estado: ${e.mood}\n`;
+                    textData += `Reflexión: ${e.text}\n`;
+                } else if(e.type === 'tcc') {
+                    textData += `TCC - Pensamiento Ansioso: ${e.thought}\n`;
+                    textData += `TCC - Pensamiento Lógico: ${e.balanced}\n`;
+                }
+                textData += `--------------------------\n\n`;
+            });
+
+            const blob = new Blob([textData], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Calm_Diario_${new Date().toLocaleDateString().replace(/\//g, '-')}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+    }
+
+    const clearBtn = document.getElementById('clear-data');
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+            if (confirm("¿Estás seguro de que quieres borrar todos tus registros? Esta acción no se puede deshacer.")) {
+                localStorage.removeItem('calm_entries');
+                const list = document.getElementById('entries-list');
+                if(list) list.innerHTML = '<p style="text-align: center; color: var(--text-muted); margin-top: 20px;">Sin registros aún.</p>';
+                updateStats();
+            }
+        });
+    }
+});

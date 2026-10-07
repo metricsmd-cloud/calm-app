@@ -179,6 +179,44 @@ header p {
     animation: fadeIn 0.4s ease;
 }
 
+/* Segmented Controls (Sub-tabs) */
+.segmented-control {
+    display: flex;
+    background: #f1f5f9;
+    padding: 4px;
+    border-radius: 20px;
+    margin-bottom: 25px;
+}
+
+.seg-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.seg-btn.active {
+    background: var(--bg-surface);
+    color: var(--text-main);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.sub-view {
+    display: none;
+    flex-direction: column;
+}
+
+.sub-view.active {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+}
+
 .module-header {
     text-align: center;
     margin-bottom: 20px; 
@@ -364,6 +402,97 @@ header p {
     font-weight: 600;
     font-size: 0.85rem;
     margin-right: 8px;
+}
+
+/* Flashcards */
+.flashcard {
+    background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+    border-radius: var(--radius-lg);
+    padding: 40px 30px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(142, 197, 252, 0.3);
+    min-height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    user-select: none;
+}
+
+.flashcard:active {
+    transform: scale(0.95);
+}
+
+.flashcard-text {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #1a202c;
+    line-height: 1.5;
+}
+
+/* Stats & Privacy */
+.stats-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    margin-top: 30px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+}
+
+.stats-card h4 {
+    font-size: 1rem;
+    color: var(--text-main);
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.stat-value {
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.privacy-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-outline {
+    background: none;
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    justify-content: center;
+}
+
+.btn-outline:hover {
+    background: var(--bg-main);
+    color: var(--text-main);
+}
+
+.btn-danger-outline {
+    background: none;
+    border: 1px solid #ff6b6b;
+    color: #ff6b6b;
+    justify-content: center;
+}
+
+.btn-danger-outline:hover {
+    background: #ff6b6b;
+    color: white;
 }
 
 /* Distraction Module */

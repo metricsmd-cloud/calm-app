@@ -7,7 +7,7 @@
     <title>Espacio de Calma</title>
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTYgMjU2Ij48Y2lyY2xlIGN4PSIxMjgiIGN5PSIxMjgiIHI9IjEyMCIgZmlsbD0iIzVjOGRmNiIvPjwvc3ZnPg==">
-    <link rel="stylesheet" href="style.css?v=12">
+    <link rel="stylesheet" href="style.css?v=13">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <!-- Phosphor Icons -->
@@ -86,59 +86,123 @@
                 </div>
             </section>
 
-            <!-- Módulo Enraizamiento -->
+            <!-- Módulo Enraizamiento y Cuerpo -->
             <section id="grounding" class="tab-content">
-                <div class="module-header">
-                    <h2>Técnica 5-4-3-2-1</h2>
-                    <p>Conecta con tus sentidos para anclarte al momento presente.</p>
+                <div class="segmented-control">
+                    <button class="seg-btn active" data-sub="grounding-54321">5-4-3-2-1</button>
+                    <button class="seg-btn" data-sub="grounding-scan">Escáner Corporal</button>
                 </div>
-                
-                <ul class="checklist">
-                    <li>
-                        <label>
-                            <input type="checkbox"> 
-                            <div class="checklist-text">
-                                <span class="number">5</span> cosas que puedas <strong>ver</strong> a tu alrededor.
-                            </div>
-                        </label>
-                    </li>
-                    <li>
-                        <label>
-                            <input type="checkbox"> 
-                            <div class="checklist-text">
-                                <span class="number">4</span> cosas que puedas <strong>sentir o tocar</strong>.
-                            </div>
-                        </label>
-                    </li>
-                    <li>
-                        <label>
-                            <input type="checkbox"> 
-                            <div class="checklist-text">
-                                <span class="number">3</span> cosas que puedas <strong>escuchar</strong>.
-                            </div>
-                        </label>
-                    </li>
-                    <li>
-                        <label>
-                            <input type="checkbox"> 
-                            <div class="checklist-text">
-                                <span class="number">2</span> cosas que puedas <strong>oler</strong>.
-                            </div>
-                        </label>
-                    </li>
-                    <li>
-                        <label>
-                            <input type="checkbox"> 
-                            <div class="checklist-text">
-                                <span class="number">1</span> cosa que puedas <strong>saborear</strong> (o imagina tu sabor favorito).
-                            </div>
-                        </label>
-                    </li>
-                </ul>
-                <div class="controls">
-                    <button id="reset-grounding" class="btn btn-secondary">
-                        <i class="ph ph-arrows-counter-clockwise"></i> Reiniciar Ejercicio
-                    </button>
+
+                <!-- 5-4-3-2-1 -->
+                <div id="grounding-54321" class="sub-view active">
+                    <div class="module-header">
+                        <h2>Técnica de los Sentidos</h2>
+                        <p>Conecta con el momento presente.</p>
+                    </div>
+                    
+                    <ul class="checklist">
+                        <li>
+                            <label>
+                                <input type="checkbox"> 
+                                <div class="checklist-text">
+                                    <span class="number">5</span> cosas que puedas <strong>ver</strong> a tu alrededor.
+                                </div>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox"> 
+                                <div class="checklist-text">
+                                    <span class="number">4</span> cosas que puedas <strong>sentir o tocar</strong>.
+                                </div>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox"> 
+                                <div class="checklist-text">
+                                    <span class="number">3</span> cosas que puedas <strong>escuchar</strong>.
+                                </div>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox"> 
+                                <div class="checklist-text">
+                                    <span class="number">2</span> cosas que puedas <strong>oler</strong>.
+                                </div>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox"> 
+                                <div class="checklist-text">
+                                    <span class="number">1</span> cosa que puedas <strong>saborear</strong>.
+                                </div>
+                            </label>
+                        </li>
+                    </ul>
+                    <div class="controls">
+                        <button id="reset-grounding" class="btn btn-secondary btn-outline">
+                            <i class="ph ph-arrows-counter-clockwise"></i> Reiniciar Ejercicio
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Body Scan -->
+                <div id="grounding-scan" class="sub-view">
+                    <div class="module-header">
+                        <h2>Relajación Muscular</h2>
+                        <p>Tensa cada parte por 5 segundos y luego suéltala por completo.</p>
+                    </div>
+
+                    <ul class="checklist" id="pmr-list">
+                        <li>
+                            <label>
+                                <input type="checkbox"> 
+                                <div class="checklist-text">
+                                    <strong>Pies y Pantorrillas:</strong> Aprieta los dedos y tensa las piernas. Suelta.
+                                </div>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox"> 
+                                <div class="checklist-text">
+                                    <strong>Muslos y Glúteos:</strong> Contrae fuerte. Siente la presión. Suelta.
+                                </div>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox"> 
+                                <div class="checklist-text">
+                                    <strong>Abdomen y Pecho:</strong> Aprieta el estómago. Respira hondo. Suelta.
+                                </div>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox"> 
+                                <div class="checklist-text">
+                                    <strong>Brazos y Manos:</strong> Cierra los puños con fuerza. Suelta.
+                                </div>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox"> 
+                                <div class="checklist-text">
+                                    <strong>Hombros y Rostro:</strong> Sube los hombros a las orejas y aprieta los ojos. Suelta y descansa.
+                                </div>
+                            </label>
+                        </li>
+                    </ul>
+                    <div class="controls">
+                        <button id="reset-pmr" class="btn btn-secondary btn-outline">
+                            <i class="ph ph-arrows-counter-clockwise"></i> Reiniciar Escáner
+                        </button>
+                    </div>
                 </div>
             </section>
 
@@ -160,39 +224,61 @@
                 </div>
             </section>
 
-            <!-- Módulo TCC -->
+            <!-- Módulo TCC y Tarjetas -->
             <section id="tcc" class="tab-content">
-                <div class="module-header">
-                    <h2>Desafiar Pensamientos</h2>
-                    <p>Usa la lógica para desarmar miedos irreales. Hazlo cuando estés más tranquilo/a.</p>
+                <div class="segmented-control">
+                    <button class="seg-btn active" data-sub="tcc-challenge">Desafiar Pensamiento</button>
+                    <button class="seg-btn" data-sub="tcc-flashcards">Tarjetas Rápidas</button>
                 </div>
 
-                <div class="tcc-form">
-                    <div class="form-group">
-                        <label>1. El pensamiento que me asusta:</label>
-                        <input type="text" id="tcc-thought" placeholder="Ej: Me voy a desmayar en la carretera">
+                <!-- Desafiar Pensamientos (TCC Original) -->
+                <div id="tcc-challenge" class="sub-view active">
+                    <div class="module-header">
+                        <h2>Terapia Cognitiva</h2>
+                        <p>Usa la lógica para desarmar miedos irreales.</p>
+                    </div>
+
+                    <div class="tcc-form">
+                        <div class="form-group">
+                            <label>1. El pensamiento que me asusta:</label>
+                            <input type="text" id="tcc-thought" placeholder="Ej: Me voy a desmayar en la carretera">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>2. Evidencia a favor (hechos, no sentimientos):</label>
+                            <textarea id="tcc-evidence-for" rows="2" placeholder="Ej: Siento taquicardia y mareo."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>3. Evidencia en contra (la realidad objetiva):</label>
+                            <textarea id="tcc-evidence-against" rows="2" placeholder="Ej: Nunca me he desmayado por ansiedad."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>4. Pensamiento equilibrado (la verdad):</label>
+                            <textarea id="tcc-balanced" rows="2" placeholder="Ej: Es solo adrenalina, mi cuerpo está a salvo."></textarea>
+                        </div>
+
+                        <div class="controls" style="margin-top: 20px;">
+                            <button id="save-tcc" class="btn btn-primary">
+                                <i class="ph ph-check-circle"></i> Guardar Reflexión
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjetas de Afrontamiento -->
+                <div id="tcc-flashcards" class="sub-view">
+                    <div class="module-header">
+                        <h2>Anclas a la Realidad</h2>
+                        <p>Toca la tarjeta para leer otra verdad.</p>
                     </div>
                     
-                    <div class="form-group">
-                        <label>2. Evidencia a favor (hechos, no sentimientos):</label>
-                        <textarea id="tcc-evidence-for" rows="2" placeholder="Ej: Siento taquicardia y mareo."></textarea>
+                    <div class="flashcard" id="flashcard">
+                        <p class="flashcard-text">"Esto es muy incómodo, pero no es peligroso. Mi cuerpo está reaccionando a una falsa alarma."</p>
                     </div>
 
-                    <div class="form-group">
-                        <label>3. Evidencia en contra (la realidad objetiva):</label>
-                        <textarea id="tcc-evidence-against" rows="2" placeholder="Ej: Nunca me he desmayado por ansiedad. El médico dijo que mi corazón está sano."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>4. Pensamiento equilibrado (la verdad):</label>
-                        <textarea id="tcc-balanced" rows="2" placeholder="Ej: Es solo adrenalina, mi cuerpo está a salvo y esto pasará."></textarea>
-                    </div>
-
-                    <div class="controls" style="margin-top: 20px;">
-                        <button id="save-tcc" class="btn btn-primary">
-                            <i class="ph ph-check-circle"></i> Guardar Reflexión
-                        </button>
-                    </div>
+                    <p style="text-align: center; color: var(--text-muted); font-size: 0.8rem;"><i class="ph ph-hand-tap"></i> Toca para cambiar</p>
                 </div>
             </section>
 
@@ -225,6 +311,26 @@
                 <div class="entries-container">
                     <h3><i class="ph ph-clock-counter-clockwise"></i> Historial Reciente</h3>
                     <div id="entries-list"></div>
+                </div>
+
+                <div class="stats-card">
+                    <h4><i class="ph ph-chart-bar"></i> Tus Datos (Privados)</h4>
+                    <div class="stat-row">
+                        <span>Total de registros:</span>
+                        <span class="stat-value" id="stat-total">0</span>
+                    </div>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 10px;">
+                        Toda tu información se guarda <strong>solo en tu teléfono</strong>. No requiere internet y nadie más tiene acceso.
+                    </p>
+                    
+                    <div class="privacy-actions">
+                        <button id="export-data" class="btn btn-outline">
+                            <i class="ph ph-download-simple"></i> Exportar Diario
+                        </button>
+                        <button id="clear-data" class="btn btn-danger-outline">
+                            <i class="ph ph-trash"></i> Borrar Todo
+                        </button>
+                    </div>
                 </div>
             </section>
         </main>
