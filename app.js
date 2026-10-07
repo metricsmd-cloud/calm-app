@@ -352,14 +352,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- PWA / OFFLINE SUPPORT ---
     if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('./sw.js')
-                .then(registration => {
-                    console.log('ServiceWorker registrado con éxito para modo Offline.');
-                })
-                .catch(error => {
-                    console.log('Fallo al registrar ServiceWorker:', error);
-                });
+        // NUKING SERVICE WORKER AND CACHE TO FORCE UPDATE
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            for(let registration of registrations) {
+                registration.unregister();
+            }
+        });
+        
+        caches.keys().then(function(names) {
+            for (let name of names) {
+                caches.delete(name);
+            }
         });
     }
 });
