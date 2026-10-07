@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#5c8df6">
+    <title>Espacio de Calma</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTYgMjU2Ij48Y2lyY2xlIGN4PSIxMjgiIGN5PSIxMjgiIHI9IjEyMCIgZmlsbD0iIzVjOGRmNiIvPjwvc3ZnPg==">
+    <link rel="stylesheet" href="style.css?v=6">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+    <div class="theme-toggle" style="display: flex; gap: 10px;">
+        <button id="sound-btn" aria-label="Alternar Sonido" title="Música Relajante">
+            <i class="ph ph-speaker-slash" id="sound-icon"></i>
+        </button>
+        <button id="theme-btn" aria-label="Cambiar tema">
+            <i class="ph ph-moon" id="theme-icon"></i>
+        </button>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="header-icon">
+                <i class="ph ph-leaf"></i>
+            </div>
+            <h1>Espacio de Calma</h1>
+            <p>Tu refugio personal para volver al presente</p>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab-btn active" data-target="sos">
+                <i class="ph ph-wind"></i> Respirar
+            </button>
+            <button class="tab-btn" data-target="distraction">
+                <i class="ph ph-brain"></i> Emergencia
+            </button>
+            <button class="tab-btn" data-target="grounding">
+                <i class="ph ph-anchor"></i> Enraizar
+            </button>
+            <button class="tab-btn" data-target="tcc">
+                <i class="ph ph-chat-centered-text"></i> TCC
+            </button>
+            <button class="tab-btn" data-target="journal">
+                <i class="ph ph-book-open-text"></i> Diario
+            </button>
+        </nav>
+
+        <main>
+            <!-- Módulo SOS: Respiración -->
+            <section id="sos" class="tab-content active">
+                <div class="module-header">
+                    <h2>Respiración Guiada</h2>
+                    <p>Sigue la animación para regular tu ritmo cardíaco.</p>
+                </div>
+                
+                <div class="breathe-selector-container">
+                    <select id="technique-select" class="technique-dropdown">
+                        <option value="coherent">Respiración Coherente (5s - 5s) • Muy suave</option>
+                        <option value="box">Respiración Cuadrada (4-4-4-4) • Equilibrante</option>
+                        <option value="478">Técnica 4-7-8 • Relajación Profunda</option>
+                    </select>
+                </div>
+                
+                <div class="breathe-container">
+                    <div class="circle-outer">
+                        <div class="circle" id="breathe-circle"></div>
+                    </div>
+                </div>
+
+                <div class="breathe-status">
+                    <p class="instructions" id="breathe-instructions">¿Listo/a para empezar?</p>
+                </div>
+
+                <div class="controls">
+                    <button id="start-breathe" class="btn btn-primary">
+                        <i class="ph ph-play"></i> Iniciar Respiración
+                    </button>
+                    <button id="stop-breathe" class="btn btn-danger hidden">
+                        <i class="ph ph-stop"></i> Detener
+                    </button>
+                </div>
+            </section>
+
+            <!-- Módulo Enraizamiento -->
+            <section id="grounding" class="tab-content">
+                <div class="module-header">
+                    <h2>Técnica 5-4-3-2-1</h2>
+                    <p>Conecta con tus sentidos para anclarte al momento presente.</p>
+                </div>
+                
+                <ul class="checklist">
+                    <li>
+                        <label>
+                            <input type="checkbox"> 
+                            <div class="checklist-text">
+                                <span class="number">5</span> cosas que puedas <strong>ver</strong> a tu alrededor.
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="checkbox"> 
+                            <div class="checklist-text">
+                                <span class="number">4</span> cosas que puedas <strong>sentir o tocar</strong>.
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="checkbox"> 
+                            <div class="checklist-text">
+                                <span class="number">3</span> cosas que puedas <strong>escuchar</strong>.
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="checkbox"> 
+                            <div class="checklist-text">
+                                <span class="number">2</span> cosas que puedas <strong>oler</strong>.
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="checkbox"> 
+                            <div class="checklist-text">
+                                <span class="number">1</span> cosa que puedas <strong>saborear</strong> (o imagina tu sabor favorito).
+                            </div>
+                        </label>
+                    </li>
+                </ul>
+                <div class="controls">
+                    <button id="reset-grounding" class="btn btn-secondary">
+                        <i class="ph ph-arrows-counter-clockwise"></i> Reiniciar Ejercicio
+                    </button>
+                </div>
+            </section>
+
+            <!-- Módulo Distracción (Emergencia) -->
+            <section id="distraction" class="tab-content">
+                <div class="module-header">
+                    <h2>Freno de Emergencia</h2>
+                    <p>Fuerza a tu cerebro a usar la lógica para interrumpir el ataque de pánico.</p>
+                </div>
+                
+                <div class="challenge-container">
+                    <p id="challenge-text" class="challenge-text">Haz clic en "Nuevo Reto" para empezar.</p>
+                </div>
+                
+                <div class="controls">
+                    <button id="new-challenge" class="btn btn-primary">
+                        <i class="ph ph-arrows-clockwise"></i> Darme un Nuevo Reto
+                    </button>
+                </div>
+            </section>
+
+            <!-- Módulo TCC -->
+            <section id="tcc" class="tab-content">
+                <div class="module-header">
+                    <h2>Desafiar Pensamientos</h2>
+                    <p>Usa la lógica para desarmar miedos irreales. Hazlo cuando estés más tranquilo/a.</p>
+                </div>
+
+                <div class="tcc-form">
+                    <div class="form-group">
+                        <label>1. El pensamiento que me asusta:</label>
+                        <input type="text" id="tcc-thought" placeholder="Ej: Me voy a desmayar en la carretera">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>2. Evidencia a favor (hechos, no sentimientos):</label>
+                        <textarea id="tcc-evidence-for" rows="2" placeholder="Ej: Siento taquicardia y mareo."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>3. Evidencia en contra (la realidad objetiva):</label>
+                        <textarea id="tcc-evidence-against" rows="2" placeholder="Ej: Nunca me he desmayado por ansiedad. El médico dijo que mi corazón está sano."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>4. Pensamiento equilibrado (la verdad):</label>
+                        <textarea id="tcc-balanced" rows="2" placeholder="Ej: Es solo adrenalina, mi cuerpo está a salvo y esto pasará."></textarea>
+                    </div>
+
+                    <div class="controls" style="margin-top: 20px;">
+                        <button id="save-tcc" class="btn btn-primary">
+                            <i class="ph ph-check-circle"></i> Guardar Reflexión
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Módulo Diario -->
+            <section id="journal" class="tab-content">
+                <div class="module-header">
+                    <h2>Registro de Emociones</h2>
+                    <p>Identificar lo que sientes ayuda a procesarlo mejor.</p>
+                </div>
+
+                <div class="mood-selector">
+                    <p>¿Cómo te sientes en este momento?</p>
+                    <div class="emojis">
+                        <button class="mood-btn" data-mood="😰" title="Ansioso">😰</button>
+                        <button class="mood-btn" data-mood="😔" title="Triste">😔</button>
+                        <button class="mood-btn" data-mood="😐" title="Neutral">😐</button>
+                        <button class="mood-btn" data-mood="🙂" title="Tranquilo">🙂</button>
+                        <button class="mood-btn" data-mood="😌" title="Aliviado">😌</button>
+                    </div>
+                </div>
+                
+                <textarea id="journal-text" rows="4" placeholder="¿Qué desencadenó este sentimiento? Escríbelo para soltarlo..."></textarea>
+                
+                <div class="controls">
+                    <button id="save-journal" class="btn btn-primary">
+                        <i class="ph ph-floppy-disk"></i> Guardar Registro
+                    </button>
+                </div>
+                
+                <div class="entries-container">
+                    <h3><i class="ph ph-clock-counter-clockwise"></i> Historial Reciente</h3>
+                    <div id="entries-list"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="audio.js?v=3"></script>
+    <script src="app.js?v=3"></script>
+</body>
+</html>
