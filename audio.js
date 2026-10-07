@@ -1,90 +1,129 @@
-// Web Audio API Synthesis - No external files needed, works offline!
-const AudioContext = window.AudioContext || window.webkitAudioContext;
-let audioCtx = null;
-let ambientNode = null;
-window.isSoundEnabled = false;
+let audioCtx;
+let isPlaying = false;
+let droneOscillators = [];
+let droneGain;
+let masterGain;
 
 function initAudio() {
     if (!audioCtx) {
-        audioCtx = new AudioContext();
-    }
-    if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        masterGain = audioCtx.createGain();
+        masterGain.gain.value = 0.4;
+        masterGain.connect(audioCtx.destination);
     }
 }
 
-// Campana suave / Singing bowl
-window.playChime = function(frequency = 432, type = 'sine') { 
-    if (!window.isSoundEnabled || !audioCtx) return;
+function startAmbientDrone() {
+    if (!audioCtx) initAudio();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
     
+    if (isPlaying) {
+        stopAmbientDrone();
+        return;
+    }
+
+    droneGain = audioCtx.createGain();
+    droneGain.gain.value = 0; 
+    droneGain.connect(masterGain);
+
+    // Frecuencias relajantes (Acorde de Do Mayor extendido con frecuencias de sanación)
+    // 130.81 (C3), 196.00 (G3), 261.63 (C4), 329.63 (E4)
+    const frequencies = [130.81, 196.00, 261.63, 329.63]; 
+    
+    frequencies.forEach((freq, index) => {
+        let osc = audioCtx.createOscillator();
+        // Usamos ondas seno puras para que suene como cuencos tibetanos o un sintetizador muy suave
+        osc.type = 'sine';
+        osc.frequency.value = freq;
+        
+        let oscGain = audioCtx.createGain();
+        // Las frecuencias más graves tienen más volumen, las agudas menos
+        oscGain.gain.value = 0.25 - (index * 0.05); 
+        
+        // LFO (Oscilador de baja frecuencia) para crear el efecto de "respiración" o "olas"
+        let lfo = audioCtx.createOscillator();
+        lfo.type = 'sine';
+        lfo.frequency.value = 0.05 + (Math.random() * 0.05); // Modulación muy, muy lenta
+        
+        let lfoGain = audioCtx.createGain();
+        lfoGain.gain.value = 0.15; // Qué tan profundo es el efecto de ola
+        
+        lfo.connect(lfoGain);
+        lfoGain.connect(oscGain.gain);
+        
+        osc.connect(oscGain);
+        oscGain.connect(droneGain);
+        
+        osc.start();
+        lfo.start();
+        
+        droneOscillators.push({ osc, lfo });
+    });
+
+    // Fade in súper suave de 4 segundos
+    droneGain.gain.linearRampToValueAtTime(1, audioCtx.currentTime + 4);
+    isPlaying = true;
+}
+
+function stopAmbientDrone() {
+    if (!isPlaying) return;
+    
+    // Fade out súper suave de 3 segundos
+    droneGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 3);
+    
+    setTimeout(() => {
+        droneOscillators.forEach(d => {
+            d.osc.stop();
+            d.lfo.stop();
+        });
+        droneOscillators = [];
+        droneGain.disconnect();
+        isPlaying = false;
+    }, 3100);
+}
+
+// Sonido de Campana (Chime)
+function playChime() {
+    if (!audioCtx) initAudio();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+
     const osc = audioCtx.createOscillator();
     const gainNode = audioCtx.createGain();
-    
-    osc.type = type;
-    osc.frequency.setValueAtTime(frequency, audioCtx.currentTime);
-    
-    // Attack and decay para un sonido suave
-    gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
-    gainNode.gain.linearRampToValueAtTime(0.15, audioCtx.currentTime + 0.3); // Suave
-    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 3);
-    
-    osc.connect(gainNode);
-    gainNode.connect(audioCtx.destination);
-    
-    osc.start();
-    osc.stop(audioCtx.currentTime + 3.1);
-};
 
-// Generador de Ruido Marrón / Lluvia sintética
-function createBrownNoise() {
-    const bufferSize = 2 * audioCtx.sampleRate;
-    const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-    const output = noiseBuffer.getChannelData(0);
+    osc.type = 'sine';
+    // Frecuencia 432 Hz (considerada terapéutica)
+    osc.frequency.setValueAtTime(432, audioCtx.currentTime); 
     
-    let lastOut = 0;
-    for (let i = 0; i < bufferSize; i++) {
-        const white = Math.random() * 2 - 1;
-        // Filtro para hacerlo "Brownian"
-        output[i] = (lastOut + (0.02 * white)) / 1.02;
-        lastOut = output[i];
-        output[i] *= 3.5; 
-    }
-    
-    const noise = audioCtx.createBufferSource();
-    noise.buffer = noiseBuffer;
-    noise.loop = true;
-    
-    // Filtro para que suene a lluvia lejana o mar
-    const filter = audioCtx.createBiquadFilter();
-    filter.type = 'lowpass';
-    filter.frequency.value = 350; // Sonido profundo y amortiguado
-    
-    const gain = audioCtx.createGain();
-    gain.gain.value = 0.2; // Volumen muy bajo de fondo
-    
-    noise.connect(filter);
-    filter.connect(gain);
-    gain.connect(audioCtx.destination);
-    
-    return { source: noise, gain: gain };
+    gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+    gainNode.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 0.1);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 5);
+
+    osc.connect(gainNode);
+    gainNode.connect(masterGain);
+
+    osc.start();
+    osc.stop(audioCtx.currentTime + 5);
 }
 
-window.toggleAmbient = function() {
-    initAudio();
-    window.isSoundEnabled = !window.isSoundEnabled;
-    
-    if (window.isSoundEnabled) {
-        ambientNode = createBrownNoise();
-        ambientNode.source.start();
-        return true;
-    } else {
-        if (ambientNode) {
-            ambientNode.gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1);
-            setTimeout(() => {
-                ambientNode.source.stop();
-                ambientNode = null;
-            }, 1000);
-        }
-        return false;
+// Escuchar el botón de sonido en el HTML
+document.addEventListener('DOMContentLoaded', () => {
+    const soundBtn = document.getElementById('sound-btn');
+    if (soundBtn) {
+        // Remover eventos anteriores si los hay (para evitar bugs de PWA)
+        const newSoundBtn = soundBtn.cloneNode(true);
+        soundBtn.parentNode.replaceChild(newSoundBtn, soundBtn);
+        
+        newSoundBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                stopAmbientDrone();
+                newSoundBtn.innerHTML = '<i class="ph ph-speaker-slash"></i>';
+                newSoundBtn.style.color = "var(--text-muted)";
+            } else {
+                startAmbientDrone();
+                newSoundBtn.innerHTML = '<i class="ph ph-speaker-high"></i>';
+                newSoundBtn.style.color = "var(--primary-color)";
+            }
+        });
     }
-};
+});
