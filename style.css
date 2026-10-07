@@ -127,7 +127,7 @@ header p {
     background: none;
     border: none;
     padding: 6px 2px;
-    color: #94a3b8; /* Unselected icon color */
+    color: #a0aec0; /* Un gris un poco más claro y azulado */
     font-size: 0.7rem;
     font-weight: 500;
     cursor: pointer;
@@ -150,17 +150,19 @@ header p {
 
 .tab-btn:hover {
     background: var(--bg-main);
+    color: #718096; /* Hover más oscuro pero no activo */
 }
 
-/* Colorful Active Tabs */
-.tab-btn.active[data-target="sos"] { color: #4facfe; }
-.tab-btn.active[data-target="distraction"] { color: #ff758c; }
-.tab-btn.active[data-target="grounding"] { color: #43e97b; }
-.tab-btn.active[data-target="tcc"] { color: #b06ab3; }
-.tab-btn.active[data-target="journal"] { color: #54657b; }
+/* Colorful Active Tabs (Much more vibrant) */
+.tab-btn.active[data-target="sos"] { color: #0084ff; } /* Azul puro brillante */
+.tab-btn.active[data-target="distraction"] { color: #ff3b30; } /* Rojo/naranja vibrante iOS */
+.tab-btn.active[data-target="grounding"] { color: #34c759; } /* Verde vibrante iOS */
+.tab-btn.active[data-target="tcc"] { color: #af52de; } /* Púrpura vibrante iOS */
+.tab-btn.active[data-target="journal"] { color: #ff9500; } /* Naranja/Amarillo vibrante iOS */
 
 .tab-btn.active i {
-    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+    transform: translateY(-2px); /* Pequeño salto para destacar */
 }
 
 /* Module Content */
@@ -449,12 +451,12 @@ textarea#journal-text {
     font-size: 1.8rem;
     cursor: pointer;
     transition: transform 0.2s, filter 0.2s;
-    filter: grayscale(100%) opacity(0.4);
+    filter: opacity(0.5); /* Ya no se ven grises y apagados, solo semi-transparentes */
 }
 
 .mood-btn.selected {
-    transform: scale(1.2);
-    filter: grayscale(0%) opacity(1);
+    transform: scale(1.25);
+    filter: opacity(1) drop-shadow(0 4px 6px rgba(0,0,0,0.1));
 }
 
 /* Entries */
