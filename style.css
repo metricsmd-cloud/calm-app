@@ -71,12 +71,13 @@ body {
     width: 100%;
     max-width: 500px;
     min-height: 100vh;
-    background-color: var(--bg-surface);
+    /* Un gradiente muy sutil en la parte superior que se desvanece a blanco, como un cielo matutino */
+    background: linear-gradient(180deg, #e8f0fe 0%, #ffffff 25%, #ffffff 100%);
     padding-bottom: 90px; /* Space for bottom nav */
     position: relative;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 0 30px rgba(0,0,0,0.02);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08); /* Sombra más pronunciada en PC */
 }
 
 /* Header */
@@ -316,8 +317,13 @@ header p {
     background: var(--bg-surface);
     border: 1px solid var(--border-color);
     border-radius: var(--radius-md);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-    transition: background 0.3s;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.04); /* Sombra más pronunciada */
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.checklist li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.06);
 }
 
 .checklist label {
@@ -479,8 +485,8 @@ textarea#journal-text {
     border: 1px solid var(--border-color);
     padding: 16px;
     border-radius: var(--radius-md);
-    margin-bottom: 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+    margin-bottom: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.04);
 }
 
 .entry-header {
