@@ -128,8 +128,8 @@ header p {
     background: none;
     border: none;
     padding: 6px 2px;
-    color: #a0aec0; /* Un gris un poco más claro y azulado */
-    font-size: 0.7rem;
+    color: #64748b; /* Gris Pizarra Fuerte - Mucho más legible */
+    font-size: 0.75rem; /* Un pelín más grande para leer mejor */
     font-weight: 500;
     cursor: pointer;
     font-family: inherit;
