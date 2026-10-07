@@ -1,4 +1,4 @@
-const CACHE_NAME = 'calma-v3';
+const CACHE_NAME = 'calma-v4';
 
 // Recursos iniciales que deben guardarse para funcionar offline
 const ASSETS_TO_CACHE = [
