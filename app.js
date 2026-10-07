@@ -82,23 +82,23 @@ document.addEventListener('DOMContentLoaded', () => {
         if (technique === 'coherent') {
             // 5s in, 5s out
             updateCircle(2.2, 5, "Inhala...", 1);
-            if(window.playChime) window.playChime(432); // Bell for inhale
+            if(window.playChime) window.playTibetanBowl(144); // Bell for inhale
             
             cycleTimeout1 = setTimeout(() => {
                 updateCircle(1, 5, "Exhala...", 0.6);
-                if(window.playChime) window.playChime(300); // Lower bell for exhale
+                if(window.playChime) window.playTibetanBowl(108); // Lower bell for exhale
             }, 5000);
             
         } else if (technique === 'box') {
             // 4s in, 4s hold, 4s out, 4s hold
             updateCircle(2.2, 4, "Inhala...", 1);
-            if(window.playChime) window.playChime(432);
+            if(window.playChime) window.playTibetanBowl(144);
             
             cycleTimeout1 = setTimeout(() => {
                 updateCircle(2.2, 4, "Sostén el aire...", 0.8);
                 cycleTimeout2 = setTimeout(() => {
                     updateCircle(1, 4, "Exhala...", 0.6);
-                    if(window.playChime) window.playChime(300);
+                    if(window.playChime) window.playTibetanBowl(108);
                     
                     cycleTimeout3 = setTimeout(() => {
                         updateCircle(1, 4, "Espera...", 0.4);
@@ -109,13 +109,13 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (technique === '478') {
             // 4s in, 7s hold, 8s out
             updateCircle(2.2, 4, "Inhala...", 1);
-            if(window.playChime) window.playChime(432);
+            if(window.playChime) window.playTibetanBowl(144);
             
             cycleTimeout1 = setTimeout(() => {
                 updateCircle(2.2, 7, "Sostén...", 0.8);
                 cycleTimeout2 = setTimeout(() => {
                     updateCircle(1, 8, "Exhala...", 0.6);
-                    if(window.playChime) window.playChime(300);
+                    if(window.playChime) window.playTibetanBowl(108);
                 }, 7000);
             }, 4000);
         }

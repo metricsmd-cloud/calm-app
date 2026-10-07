@@ -83,27 +83,37 @@ function stopAmbientDrone() {
     }, 3100);
 }
 
-// Sonido de Campana (Chime)
-function playChime() {
+// Sonido de Cuenco Tibetano (Boom)
+window.playTibetanBowl = function(baseFreq) {
     if (!audioCtx) initAudio();
     if (audioCtx.state === 'suspended') audioCtx.resume();
 
-    const osc = audioCtx.createOscillator();
-    const gainNode = audioCtx.createGain();
+    const t = audioCtx.currentTime;
 
-    osc.type = 'sine';
-    // Frecuencia 432 Hz (considerada terapéutica)
-    osc.frequency.setValueAtTime(432, audioCtx.currentTime); 
-    
-    gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
-    gainNode.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 0.1);
-    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 5);
+    // Frecuencias para simular la complejidad de un cuenco metálico grande (fundamental + armónicos)
+    const frequencies = [baseFreq, baseFreq * 2.5, baseFreq * 4.2]; 
+    const decayTimes = [8, 5, 3]; // El sonido grave resuena mucho más tiempo
+    const gains = [0.7, 0.2, 0.05]; // El golpe grave domina el sonido
 
-    osc.connect(gainNode);
-    gainNode.connect(masterGain);
+    frequencies.forEach((freq, i) => {
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
 
-    osc.start();
-    osc.stop(audioCtx.currentTime + 5);
+        // Mezclamos ondas seno puras con una onda triangular en los armónicos para darle textura de "metal"
+        osc.type = i === 0 ? 'sine' : 'triangle'; 
+        osc.frequency.setValueAtTime(freq, t);
+        
+        // El "Boom": Ataque moderadamente rápido (0.1s) y luego una caída exponencial muy lenta
+        gainNode.gain.setValueAtTime(0, t);
+        gainNode.gain.linearRampToValueAtTime(gains[i], t + 0.1);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, t + decayTimes[i]);
+
+        osc.connect(gainNode);
+        gainNode.connect(masterGain);
+
+        osc.start(t);
+        osc.stop(t + decayTimes[i]);
+    });
 }
 
 // Escuchar el botón de sonido en el HTML
