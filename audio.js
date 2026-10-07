@@ -9,7 +9,7 @@ function initAudio() {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         
         masterGain = audioCtx.createGain();
-        masterGain.gain.value = 0.4;
+        masterGain.gain.value = 1.2; // Intensidad subida al 120%
         masterGain.connect(audioCtx.destination);
     }
 }
@@ -93,7 +93,7 @@ window.playTibetanBowl = function(baseFreq) {
     // Frecuencias para simular la complejidad de un cuenco metálico grande (fundamental + armónicos)
     const frequencies = [baseFreq, baseFreq * 2.5, baseFreq * 4.2]; 
     const decayTimes = [8, 5, 3]; // El sonido grave resuena mucho más tiempo
-    const gains = [0.7, 0.2, 0.05]; // El golpe grave domina el sonido
+    const gains = [2.0, 0.6, 0.2]; // Golpe de percusión mucho más fuerte (200%)
 
     frequencies.forEach((freq, i) => {
         const osc = audioCtx.createOscillator();
